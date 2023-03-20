@@ -1,0 +1,42 @@
+{% extends "base.html"%} {% block title %}Catalogo de productos{% endblock %}
+<!-- Section-->
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category,message in
+messages %}
+<div class="alert alert-{{category}}">{{message}}</div>
+
+{% endfor %} {% endif %} {% endwith %}
+<div id="cartItems">
+    <h2>Shopping Cart</h2>
+    <div id="tableItems">
+        {% for row in productos %}
+        <div>
+            <hr id="seperator">
+            <div id="itemImage">
+                <img src={{row[4]}} id="image" />
+            </div>
+            <div id="itemName">
+                <span id="itemNameTag">{{row[2]}}</span><br>
+                Cantidad agregados: {{row[5]}}<br>
+                <a href="/removeFromCart?kartId={{row[0]}}">Remove</a>
+            </div>
+            <div id="itemPrice">
+                ${{row[6]}}
+            </div>
+        </div>
+        {% endfor %}
+        <hr id="seperator">
+        <div id="total">
+            <span id="subtotal">Subtotal</span> : ${{precio_total}}
+        </div>
+    </div>
+</div>
+{% if itms_carrito>0 %}
+<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{url_for('compras.comprar')}}">Comprar</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
